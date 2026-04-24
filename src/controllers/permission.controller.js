@@ -12,14 +12,24 @@ export const create = async (req, res) => {
 };
 
 export const update = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const { name, description, active } = req.body;
 
-  const permission = await prisma.permission.update({
-    where: { id: Number(id) },
-    data: req.body
-  });
+    const permission = await prisma.permission.update({
+      where: { id: Number(id) },
+      data: {
+        name,
+        description,
+        active,
+      },
+    });
 
-  res.json(permission);
+    res.json(permission);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error updating permission" });
+  }
 };
 
 export const getAll = async (_, res) => {
