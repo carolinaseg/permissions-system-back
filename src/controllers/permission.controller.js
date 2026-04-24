@@ -1,6 +1,11 @@
 import prisma from "../prisma/client.js";
 import { createPermission } from "../services/permission.service.js";
 
+export const getAll = async (_, res) => {
+  const permissions = await prisma.permission.findMany();
+  res.json(permissions);
+};
+
 export const create = async (req, res) => {
   try {
     const permission = await createPermission(req.body);
@@ -32,7 +37,17 @@ export const update = async (req, res) => {
   }
 };
 
-export const getAll = async (_, res) => {
-  const permissions = await prisma.permission.findMany();
-  res.json(permissions);
+export const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.permission.delete({
+      where: { id: Number(id) },
+    });
+
+    res.json({ message: "Permission deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error deleting permission" });
+  }
 };

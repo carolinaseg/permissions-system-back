@@ -3,8 +3,10 @@ import * as controller from "../controllers/permission.controller.js";
 
 const router = express.Router();
 
+router.get("/", controller.getAll);
 router.post("/", controller.create);
 router.put("/:id", controller.update);
-router.get("/", controller.getAll);
+router.delete("/:id", controller.remove);
+
 
 export default router;
