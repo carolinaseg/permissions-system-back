@@ -1,12 +1,14 @@
 import prisma from "../prisma/client.js";
+import { createPermission } from "../services/permission.service.js";
 
 export const create = async (req, res) => {
   try {
     const permission = await createPermission(req.body);
     res.json(permission);
   } catch (error) {
-    res.status(500).json({ error: "Error creating permission" });
-  }
+  console.error("ERROR:", error);
+  res.status(500).json({ error: "Error creating permission" });
+}
 };
 
 export const update = async (req, res) => {
