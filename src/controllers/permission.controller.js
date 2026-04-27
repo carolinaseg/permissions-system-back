@@ -6,38 +6,34 @@ export const getAll = async (_, res) => {
   res.json(permissions);
 };
 
-export const create = async (req, res) => {
+export const create = async (req, res, next) => {
   try {
     const permission = await createPermission(req.body);
     res.json(permission);
   } catch (error) {
-  console.error("ERROR:", error);
-  res.status(500).json({ error: "Error creating permission" });
-}
+    next(error);
+  }
 };
 
-export const update = async (req, res) => {
+export const update = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, description, active } = req.body;
 
     const permission = await prisma.permission.update({
       where: { id: Number(id) },
-      data: {
-        name,
-        description,
-        active,
-      },
+      data: req.body,
     });
 
     res.json(permission);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error updating permission" });
+    if (error.code === "P2025") {
+       return next({ type: "NOT_FOUND" });
+    }
+    next(error);
   }
 };
 
-export const remove = async (req, res) => {
+export const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -45,9 +41,11 @@ export const remove = async (req, res) => {
       where: { id: Number(id) },
     });
 
-    res.json({ message: "Permission deleted successfully" });
+    res.json({ message: "Deleted successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error deleting permission" });
+  if (error.code === "P2025") {
+    return next({ type: "NOT_FOUND" });
+  }
+  next(error);
   }
 };
