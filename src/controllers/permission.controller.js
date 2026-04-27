@@ -1,4 +1,4 @@
-import prisma from "../prisma/client.js";
+import { prisma } from "../lib/prisma.js";
 import { createPermission } from "../services/permission.service.js";
 
 export const getAll = async (_, res) => {
