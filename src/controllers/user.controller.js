@@ -1,4 +1,4 @@
-import prisma from "../prisma/client.js";
+import { prisma } from "../lib/prisma.js";
 
 export const assign = async (req, res) => {
   const { userId } = req.params;

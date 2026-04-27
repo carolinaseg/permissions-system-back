@@ -1,4 +1,4 @@
-import prisma  from "../prisma/client.js";
+import { prisma } from "../lib/prisma.js";
 
 export const createPermission = async (data) => {
   const { name, description, active } = data;
