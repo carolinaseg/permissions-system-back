@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import permissionRoutes from "./routes/permission.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -14,3 +15,5 @@ app.use("/users", userRoutes);
 app.listen(3000, () => {
   console.log("API running on http://localhost:3000");
 });
+
+app.use(errorHandler);

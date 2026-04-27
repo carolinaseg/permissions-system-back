@@ -20,6 +20,9 @@ CREATE TABLE "UserPermission" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Permission_name_key" ON "Permission"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserPermission_userId_permissionId_key" ON "UserPermission"("userId", "permissionId");
 
 -- AddForeignKey
