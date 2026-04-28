@@ -18,3 +18,10 @@ export const assignPermissionToUser = async (userId, permissionId) => {
     },
   });
 };
+
+export const getPermissionsByUser = async (userId) => {
+  return prisma.userPermission.findMany({
+    where: { userId },
+    include: { permission: true },
+  });
+};
