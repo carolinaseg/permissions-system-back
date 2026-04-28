@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 import { assignPermissionToUser } from "../services/userPermission.service.js";
+import { getPermissionsByUser } from "../services/userPermission.service.js";
 
 export const assign = async (req, res, next) => {
   try {
@@ -45,10 +46,7 @@ export const getUserPermissions = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    const result = await prisma.userPermission.findMany({
-      where: { userId },
-      include: { permission: true },
-    });
+    const result = await getPermissionsByUser(userId);
 
     return res.json(result);
   } catch (error) {
